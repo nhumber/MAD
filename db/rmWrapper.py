@@ -852,6 +852,7 @@ class RmWrapper(DbWrapperBase):
             "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) "
             "ON DUPLICATE KEY UPDATE "
             "guard_pokemon_id=VALUES(guard_pokemon_id), team_id=VALUES(team_id), "
+			"is_in_battle = VALUES(is_in_battle), "
             "slots_available=VALUES(slots_available), last_scanned=VALUES(last_scanned), "
             "last_modified=VALUES(last_modified)"
         )
@@ -869,6 +870,7 @@ class RmWrapper(DbWrapperBase):
                     team_id = gym['gym_details']['owned_by_team']
                     latitude = gym['latitude']
                     longitude = gym['longitude']
+                    is_in_battle = gym['gym_details']['is_in_battle']*1
                     slots_available = gym['gym_details']['slots_available']
                     raidendSec = 0
                     last_modified_ts = gym['last_modified_timestamp_ms']/1000
@@ -888,7 +890,7 @@ class RmWrapper(DbWrapperBase):
                             1,  # enabled
                             latitude, longitude,
                             0,  # total CP
-                            0,  # is_in_battle
+                            is_in_battle,  # is_in_battle
                             last_modified,  # last_modified
                             now   # last_scanned
                         )
